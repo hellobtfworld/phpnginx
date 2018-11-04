@@ -31,3 +31,12 @@ RUN gpg --keyserver keys.gnupg.net --recv-key 7BD9BF62 \
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
+
+
+EXPOSE 80
+
+STOPSIGNAL SIGTERM
+
+WORKDIR /var/www/app
+
+CMD /usr/sbin/php5-fpm -R --fpm-config /etc/php5/fpm/php-fpm.conf && nginx -g 'daemon off;'
